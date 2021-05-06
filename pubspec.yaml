@@ -33,6 +33,15 @@ dependencies:
   # For example, to use Firebase Authentication and Cloud Firestore
   firebase_auth:
   cloud_firestore:
+  shared_preferences:
+  progress_dialog:
+  flutter_facebook_login:
+  http:
+  image_picker:
+  firebase_storage:
+  cached_network_image:
+  smooth_page_indicator:
+
 
 dev_dependencies:
   flutter_test:
