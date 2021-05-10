@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -362,7 +361,7 @@ class _SignUpState extends State<SignUpScreen> {
         await FireStoreUtils.firestore
             .collection(USERS)
             .doc(result.user.uid)
-            .set(user.toJson());
+            .set(user.toJson());     
         hideProgress();
         MyAppState.currentUser = user;
         pushAndRemoveUntil(context, HomeScreen(user: user), false);
