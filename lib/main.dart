@@ -138,21 +138,36 @@ class OnBoardingState extends State<OnBoarding> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool finishedOnBoarding = (prefs.getBool(FINISHED_ON_BOARDING) ?? false);
 
-    if (finishedOnBoarding) {
-      auth.User firebaseUser = auth.FirebaseAuth.instance.currentUser;
-      if (firebaseUser != null) {
-        User user = await FireStoreUtils().getCurrentUser(firebaseUser.uid);
-        if (user != null) {
-          MyAppState.currentUser = user;
-          pushReplacement(context, new HomeScreen(user: user));
-        } else {
-          pushReplacement(context, new AuthScreen());
-        }
+
+    //removed finishedOnBoarding details, because we dont want the original onboarding screen
+    // if (finishedOnBoarding) {
+    //   auth.User firebaseUser = auth.FirebaseAuth.instance.currentUser;
+    //   if (firebaseUser != null) {
+    //     User user = await FireStoreUtils().getCurrentUser(firebaseUser.uid);
+    //     if (user != null) {
+    //       MyAppState.currentUser = user;
+    //       pushReplacement(context, new HomeScreen(user: user));
+    //     } else {
+    //       pushReplacement(context, new AuthScreen());
+    //     }
+    //   } else {
+    //     pushReplacement(context, new AuthScreen());
+    //   }
+    // } else {
+    //   pushReplacement(context, new OnBoardingScreen());
+    // }
+
+    auth.User firebaseUser = auth.FirebaseAuth.instance.currentUser;
+    if (firebaseUser != null) {
+      User user = await FireStoreUtils().getCurrentUser(firebaseUser.uid);
+      if (user != null) {
+        MyAppState.currentUser = user;
+        pushReplacement(context, new HomeScreen(user: user));
       } else {
         pushReplacement(context, new AuthScreen());
       }
     } else {
-      pushReplacement(context, new OnBoardingScreen());
+      pushReplacement(context, new AuthScreen());
     }
   }
 
