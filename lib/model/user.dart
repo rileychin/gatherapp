@@ -19,6 +19,7 @@ class User {
   bool selected;
 
   String appIdentifier;
+  List<String> userCategory;
 
   User(
       {this.email = '',
@@ -29,7 +30,8 @@ class User {
       this.selected = false,
       lastOnlineTimestamp,
       this.userID = '',
-      this.profilePictureURL = ''})
+      this.profilePictureURL = '',
+      this.userCategory = const ["Sports"]})
       : this.lastOnlineTimestamp = lastOnlineTimestamp ?? Timestamp.now(),
         this.appIdentifier = 'Flutter Login Screen ${Platform.operatingSystem}';
 
@@ -46,7 +48,8 @@ class User {
         lastOnlineTimestamp: parsedJson['lastOnlineTimestamp'],
         phoneNumber: parsedJson['phoneNumber'] ?? '',
         userID: parsedJson['id'] ?? parsedJson['userID'] ?? '',
-        profilePictureURL: parsedJson['profilePictureURL'] ?? '');
+        profilePictureURL: parsedJson['profilePictureURL'] ?? '',
+        userCategory: parsedJson['userCategory' ?? ["Sports"]]);
   }
 
   Map<String, dynamic> toJson() {
@@ -59,7 +62,8 @@ class User {
       'active': this.active,
       'lastOnlineTimestamp': this.lastOnlineTimestamp,
       'profilePictureURL': this.profilePictureURL,
-      'appIdentifier': this.appIdentifier
+      'appIdentifier': this.appIdentifier,
+      'userCategory' : this.userCategory
     };
   }
 }
