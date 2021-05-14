@@ -10,6 +10,8 @@ import 'package:gather_app/model/user.dart';
 import 'package:gather_app/services/authenticate.dart';
 import 'package:gather_app/services/helper.dart';
 import 'package:gather_app/ui/auth/authScreen.dart';
+import 'package:ss_bottom_navbar/ss_bottom_navbar.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   final User user;
@@ -23,13 +25,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeState extends State<HomeScreen> {
+  final items = [
+    SSBottomNavItem(text: 'Home', iconData: Icons.home),
+    SSBottomNavItem(text: 'Store', iconData: Icons.store),
+    SSBottomNavItem(text: 'Add', iconData: Icons.add, isIconOnly: true),
+    SSBottomNavItem(text: 'Explore', iconData: Icons.explore),
+    SSBottomNavItem(text: 'Profile', iconData: Icons.person),
+  ];
+  SSBottomBarState _state = SSBottomBarState();
+  bool _isVisible = true;
+  final _colors = [Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.teal];
   final User user;
 
   _HomeState(this.user);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ChangeNotifierProvider(
+    create: (_) => _state,
+    builder: (context, child) {
+      context.watch<SSBottomBarState>();
+      return Scaffold(
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -49,7 +65,7 @@ class _HomeState extends State<HomeScreen> {
                 style: TextStyle(color: Colors.black),
               ),
               leading: Transform.rotate(
-                angle: pi/1,
+                  angle: pi / 1,
                   child: Icon(Icons.exit_to_app, color: Colors.black)),
               onTap: () async {
                 user.active = false;
@@ -72,32 +88,52 @@ class _HomeState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         centerTitle: true,
       ),
-      body: Center(
+      body: IndexedStack(
+        index: _state.selected,
+        children: _buildPages(),
+      ),
+      bottomNavigationBar: SSBottomNav(
+            items: items,
+            state: _state,
+            color: Colors.black,
+            selectedColor: Colors.white,
+            unselectedColor: Colors.black,
+            visible: _isVisible,
+            bottomSheetWidget: _bottomSheet(),
+            showBottomSheetAt: 2,
+          ),
+    );
+    });
+  }
+
+  Widget _page(Color color) => Container(color: color);
+
+  List<Widget> _buildPages() => _colors.map((color) => _page(color)).toList();
+
+  Widget _bottomSheet() => Container(
+        color: Colors.white,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            displayCircleImage(user.profilePictureURL, 125, false),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(user.firstName),
+          children: [
+            ListTile(
+              leading: Icon(Icons.add_alarm_sharp),
+              title: Text('Random'),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(user.email),
+            ListTile(
+              leading: Icon(Icons.camera_alt),
+              title: Text('Use Camera'),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(user.phoneNumber),
+            ListTile(
+              leading: Icon(Icons.photo_library),
+              title: Text('Choose from Gallery'),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(user.userID),
+            ListTile(
+              leading: Icon(Icons.edit),
+              title: Text('Write a Story'),
+              onTap: () {
+                Navigator.maybePop(context);
+              },
             ),
           ],
         ),
-      ),
-    );
-  }
+      );
 }
