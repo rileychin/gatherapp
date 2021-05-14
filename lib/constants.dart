@@ -4,3 +4,15 @@ const COLOR_PRIMARY_DARK = 0xFF6900be;
 const COLOR_PRIMARY = 0xFFa011f2;
 const FACEBOOK_BUTTON_COLOR = 0xFF415893;
 const USERS = 'users';
+const CATEGORIES = <String>[
+  "Sports",
+  "Gaming",
+  "Food",
+  "Recreation",
+  "Education",
+  "Party",
+  "General",
+  "Casual",
+  "Business",
+  "Hobby",
+];

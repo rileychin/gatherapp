@@ -16,6 +16,35 @@ String validateName(String value) {
   return null;
 }
 
+String validateLocation(String value) {
+  String pattern = r'(^[a-zA-Z ]*$)';
+  RegExp regExp = new RegExp(pattern);
+  if (value.length == 0) {
+    return "Location is required";
+  } else if (!regExp.hasMatch(value)) {
+    return "Location must be a-z and A-Z";
+  }
+  return null;
+}
+
+String validateDescription(String value) {
+  if (value.length == 0) {
+    return "Description is required";
+  }
+  return null;
+}
+
+String validateTitle(String value) {
+  String pattern = r'(^[a-zA-Z ]*$)';
+  RegExp regExp = new RegExp(pattern);
+  if (value.length == 0) {
+    return "Title is required";
+  } else if (!regExp.hasMatch(value)) {
+    return "Title must be a-z and A-Z";
+  }
+  return null;
+}
+
 String validateMobile(String value) {
   String pattern = r'(^[0-9]*$)';
   RegExp regExp = new RegExp(pattern);

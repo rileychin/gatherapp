@@ -133,11 +133,9 @@ class OnBoarding extends StatefulWidget {
 
 class OnBoardingState extends State<OnBoarding> {
   Future hasFinishedOnBoarding() async {
-
     // pushReplacement(context, new AuthScreen());
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool finishedOnBoarding = (prefs.getBool(FINISHED_ON_BOARDING) ?? false);
-
 
     //removed finishedOnBoarding details, because we dont want the original onboarding screen
     // if (finishedOnBoarding) {
@@ -190,7 +188,7 @@ class OnBoardingState extends State<OnBoarding> {
   // }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -205,7 +203,7 @@ class OnBoardingState extends State<OnBoarding> {
           ),
           Padding(
             padding:
-            const EdgeInsets.only(left: 16, top: 32, right: 16, bottom: 8),
+                const EdgeInsets.only(left: 16, top: 32, right: 16, bottom: 8),
             child: Text(
               'Say Hello To Your New App!',
               textAlign: TextAlign.center,
@@ -269,7 +267,6 @@ class OnBoardingState extends State<OnBoarding> {
     );
   }
 }
-
 
 // import 'package:flutter/material.dart';
 //

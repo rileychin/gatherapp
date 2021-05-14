@@ -9,6 +9,7 @@ import 'package:gather_app/model/user.dart';
 import 'package:gather_app/services/authenticate.dart';
 import 'package:gather_app/services/helper.dart';
 import 'package:gather_app/ui/home/homeScreen.dart';
+import 'package:gather_app/ui/signUp/signUpScreenCategory.dart';
 import 'package:image_picker/image_picker.dart';
 
 File _image;
@@ -364,7 +365,7 @@ class _SignUpState extends State<SignUpScreen> {
             .set(user.toJson());     
         hideProgress();
         MyAppState.currentUser = user;
-        pushAndRemoveUntil(context, HomeScreen(user: user), false);
+        pushAndRemoveUntil(context, SignUpScreenCategory(user: user), false);
       } on auth.FirebaseAuthException catch (error) {
         hideProgress();
         String message = 'Couldn\'t sign up';
