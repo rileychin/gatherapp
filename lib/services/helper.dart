@@ -21,8 +21,6 @@ String validateLocation(String value) {
   RegExp regExp = new RegExp(pattern);
   if (value.length == 0) {
     return "Location is required";
-  } else if (!regExp.hasMatch(value)) {
-    return "Location must be a-z and A-Z";
   }
   return null;
 }
@@ -39,8 +37,6 @@ String validateTitle(String value) {
   RegExp regExp = new RegExp(pattern);
   if (value.length == 0) {
     return "Title is required";
-  } else if (!regExp.hasMatch(value)) {
-    return "Title must be a-z and A-Z";
   }
   return null;
 }

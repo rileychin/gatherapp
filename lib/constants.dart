@@ -16,3 +16,4 @@ const CATEGORIES = <String>[
   "Business",
   "Hobby",
 ];
+const GOOGLEAPIKEY = "AIzaSyBrCRmjv-557iJnR2U06yV9G9D3HyLBtD8";

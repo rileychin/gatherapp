@@ -43,7 +43,10 @@ dependencies:
   ss_bottom_navbar: 0.1.0
   provider: ^4.3.1
   grouped_buttons: ^1.0.3
-
+  place_picker: ^0.9.18
+  flutter_google_places: ^0.3.0
+  flutter_datetime_picker: ^1.5.1
+  uuid: 3.0.4
 
 dev_dependencies:
   flutter_test:

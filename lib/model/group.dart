@@ -13,7 +13,6 @@ class Group {
   String location;
   List<dynamic> tag;
   String groupId;
-  String userId;
 
   //every group needs a host yea
   String hostId;
@@ -27,6 +26,7 @@ class Group {
 
   String commentId;
   DateTime createdDate;
+  DateTime eventDate;
 
   //for multiple photos, if not by default no image
   List<String> groupPictureURL;
@@ -37,11 +37,11 @@ class Group {
     this.location = '',
     this.tag = const [],
     this.groupId = '',
-    this.userId = '',
     this.hostId = '',
     this.hostName = '',
     this.commentId = '',
     this.createdDate,
+    this.eventDate,
   });
 
   factory Group.fromJson(Map<String, dynamic> parsedJson) {
@@ -51,12 +51,11 @@ class Group {
       location: parsedJson['location'] ?? '',
       tag: parsedJson['tag'] ?? [],
       groupId: parsedJson['groupId'] ?? '',
-      userId: parsedJson['userId'] ?? '',
       hostId: parsedJson['hostId'] ?? '',
       hostName: parsedJson['hostName'] ?? '',
       commentId: parsedJson['commentId'] ?? '',
       createdDate: DateTime.now(),
-
+      eventDate: parsedJson['eventDate'] ?? '',
     );
   }
 
@@ -67,11 +66,11 @@ class Group {
       'location': this.location,
       'tag': this.tag,
       'groupId': this.groupId,
-      'userId': this.userId,
       'hostId' : this.hostId,
       'hostName' : this.hostName,
       'commentId': this.commentId,
       'createdDate': this.createdDate,
+      'eventDate': this.eventDate,
     };
   }
 }
