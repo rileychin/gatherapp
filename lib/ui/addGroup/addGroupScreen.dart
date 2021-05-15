@@ -21,7 +21,7 @@ class _AddGroupScreen extends State<AddGroupScreen> {
   _AddGroupScreen(this.user);
   GlobalKey<FormState> _key = new GlobalKey();
   AutovalidateMode _validate = AutovalidateMode.disabled;
-  String title, description, location;
+  String title, description, location, dateTime;
   CollectionReference groups = FirebaseFirestore.instance.collection('groups');
 
   @override
@@ -35,6 +35,18 @@ class _AddGroupScreen extends State<AddGroupScreen> {
     );
   }
 
+
+  //REQUIRED FIELDS:
+  //(0) OPTIONAL: Group image (image picker)
+  //1: Title (text box)
+  //(2) OPTIONAL: Online/Offline event (radio button)
+  //3: Location (text box/ google maps API location picker)
+  //4: Date (date time picker)
+  //5: Description (long&wide text box max 100 words)
+  //6: Tags (checkbox from constants.dart)
+
+  //NOTE: confirm button put next screen, push to firestore
+  //after user select tags & confirms the group posting
   Widget groupFormUI() {
     return new Column(
       children: <Widget>[
@@ -77,30 +89,6 @@ class _AddGroupScreen extends State<AddGroupScreen> {
                 padding:
                     const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
                 child: TextFormField(
-                    validator: validateDescription,
-                    onSaved: (String val) {
-                      description = val;
-                    },
-                    textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
-                    decoration: InputDecoration(
-                        contentPadding: new EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 16),
-                        fillColor: Colors.white,
-                        hintText: 'Description',
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                            borderSide: BorderSide(
-                                color: Color(COLOR_PRIMARY), width: 2.0)),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ))))),
-        ConstrainedBox(
-            constraints: BoxConstraints(minWidth: double.infinity),
-            child: Padding(
-                padding:
-                    const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
-                child: TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
                     onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
@@ -120,6 +108,55 @@ class _AddGroupScreen extends State<AddGroupScreen> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25.0),
                         ))))),
+        ConstrainedBox(
+            constraints: BoxConstraints(minWidth: double.infinity),
+            child: Padding(
+                padding:
+                const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
+                child: TextFormField(
+                    validator: validateDescription,
+                    onSaved: (String val) {
+                      dateTime = val;
+                    },
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
+                    decoration: InputDecoration(
+                        contentPadding: new EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 16),
+                        fillColor: Colors.white,
+                        hintText: 'Date and Time',
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide: BorderSide(
+                                color: Color(COLOR_PRIMARY), width: 2.0)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ))))),
+        ConstrainedBox(
+            constraints: BoxConstraints(minWidth: double.infinity),
+            child: Padding(
+                padding:
+                const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
+                child: TextFormField(
+                    validator: validateDescription,
+                    onSaved: (String val) {
+                      description = val;
+                    },
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
+                    decoration: InputDecoration(
+                        contentPadding: new EdgeInsets.symmetric(
+                            vertical: 90, horizontal: 16),
+                        fillColor: Colors.white,
+                        hintText: 'Description',
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide: BorderSide(
+                                color: Color(COLOR_PRIMARY), width: 2.0)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ))))),
+
         Padding(
           padding: const EdgeInsets.only(right: 40.0, left: 40.0, top: 40.0),
           child: ConstrainedBox(
@@ -157,6 +194,9 @@ class _AddGroupScreen extends State<AddGroupScreen> {
           tag: ['Test'],
           userId: user.userID,
           groupId: groupId,
+          hostId: user.userID,
+          hostName: user.fullName(),
+          createdDate: DateTime.now(),
         );
         await FireStoreUtils.firestore
             .collection('groups')

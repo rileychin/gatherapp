@@ -49,7 +49,7 @@ class User {
         phoneNumber: parsedJson['phoneNumber'] ?? '',
         userID: parsedJson['id'] ?? parsedJson['userID'] ?? '',
         profilePictureURL: parsedJson['profilePictureURL'] ?? '',
-        userCategory: parsedJson['userCategory' ?? ["Sports"]]);
+        userCategory: parsedJson['userCategory'] ?? ["General"]);
   }
 
   Map<String, dynamic> toJson() {

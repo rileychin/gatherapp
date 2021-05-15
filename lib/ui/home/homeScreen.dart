@@ -37,13 +37,6 @@ class _HomeState extends State<HomeScreen> {
   ];
   SSBottomBarState _state = SSBottomBarState();
   bool _isVisible = true;
-  final _colors = [
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.orange,
-    Colors.teal,
-  ];
   final User user;
 
   _HomeState(this.user);
@@ -61,7 +54,7 @@ class _HomeState extends State<HomeScreen> {
                 children: <Widget>[
                   DrawerHeader(
                     child: Text(
-                      'Drawer Header',
+                      '${user.fullName()}',
                       style: TextStyle(color: Colors.white),
                     ),
                     decoration: BoxDecoration(
@@ -108,12 +101,13 @@ class _HomeState extends State<HomeScreen> {
             bottomNavigationBar: SSBottomNav(
               items: items,
               state: _state,
-              color: Colors.black,
+              color: Color(COLOR_PRIMARY),
               selectedColor: Colors.white,
               unselectedColor: Colors.black,
               visible: _isVisible,
               // bottomSheetWidget: _bottomSheet(),
               // showBottomSheetAt: 2,
+
               //if no bottom sheet there will
               //be overflow for index 0
               showBottomSheetAt: null,
@@ -121,11 +115,6 @@ class _HomeState extends State<HomeScreen> {
           );
         });
   }
-
-  // Widget _page(Color color) => Container(
-  //   color: color);
-
-  //List<Widget> _buildPages() => _colors.map((color) => _page(color)).toList();
 
   List<Widget> _buildPages(user){
     List<Widget> pages = [MainBox(user: user),MainBox(user: user),AddGroupScreen(user: user),BlankScreen(user: user),BlankScreen(user: user)];
