@@ -22,17 +22,23 @@ class _MainBox extends State<MainBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: itemCount > 0
-            ? ListView.builder(
-              itemCount: itemCount,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text('Item ${index + 1}'),
-                );
-              },
-            )
-            : Center(child: const Text('No grouping')));
+    return
+    SingleChildScrollView(
+      child: Align(
+          child: Center(
+              child: itemCount > 0
+                  ? ListView.builder(
+                itemCount: itemCount,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    title: Text('Item ${index + 1}'),
+                  );
+                },
+              )
+                  : Center(child: const Text('No grouping')))
+      )
+    );
+
   }
 
   // @override

@@ -98,13 +98,13 @@ class _HomeState extends State<HomeScreen> {
               centerTitle: true,
             ),
             body: Row(
-              children: [
-              Expanded(
-                  child: IndexedStack(
-                index: _state.selected,
-                children: _buildPages(user),
-              )),
-            ]),
+                children: [
+                  Expanded(
+                      child: IndexedStack(
+                        index: _state.selected,
+                        children: _buildPages(user),
+                      )),
+                ]),
             bottomNavigationBar: SSBottomNav(
               items: items,
               state: _state,
@@ -114,6 +114,9 @@ class _HomeState extends State<HomeScreen> {
               visible: _isVisible,
               // bottomSheetWidget: _bottomSheet(),
               // showBottomSheetAt: 2,
+              //if no bottom sheet there will
+              //be overflow for index 0
+              showBottomSheetAt: null,
             ),
           );
         });
@@ -128,30 +131,4 @@ class _HomeState extends State<HomeScreen> {
     List<Widget> pages = [MainBox(user: user),MainBox(user: user),AddGroupScreen(user: user),BlankScreen(user: user),BlankScreen(user: user)];
     return pages;
   }
-  // Widget _bottomSheet() => Container(
-  //       color: Colors.white,
-  //       child: Column(
-  //         children: [
-  //           ListTile(
-  //             leading: Icon(Icons.add_alarm_sharp),
-  //             title: Text('Random'),
-  //           ),
-  //           ListTile(
-  //             leading: Icon(Icons.camera_alt),
-  //             title: Text('Use Camera'),
-  //           ),
-  //           ListTile(
-  //             leading: Icon(Icons.photo_library),
-  //             title: Text('Choose from Gallery'),
-  //           ),
-  //           ListTile(
-  //             leading: Icon(Icons.edit),
-  //             title: Text('Write a Story'),
-  //             onTap: () {
-  //               Navigator.maybePop(context);
-  //             },
-  //           ),
-  //         ],
-  //       ),
-  //     );
 }
