@@ -26,10 +26,14 @@ class Group {
 
   String commentId;
   DateTime createdDate;
-  DateTime eventDate;
+  String eventDate;
 
   //for multiple photos, if not by default no image
   List<String> groupPictureURL;
+
+  //Group status to determine if 'active', 'canceled', 'over'
+  String status;
+
 
   Group({
     this.title = '',
@@ -42,6 +46,7 @@ class Group {
     this.commentId = '',
     this.createdDate,
     this.eventDate,
+    this.status = 'active'
   });
 
   factory Group.fromJson(Map<String, dynamic> parsedJson) {
@@ -56,6 +61,7 @@ class Group {
       commentId: parsedJson['commentId'] ?? '',
       createdDate: DateTime.now(),
       eventDate: parsedJson['eventDate'] ?? '',
+      status: parsedJson['status'] ?? ''
     );
   }
 
@@ -71,6 +77,7 @@ class Group {
       'commentId': this.commentId,
       'createdDate': this.createdDate,
       'eventDate': this.eventDate,
+      'status' : this.status,
     };
   }
 }

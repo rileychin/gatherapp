@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -120,24 +121,20 @@ class _SignUpCategoryState extends State<SignUpScreenCategory> {
     }
     else{
       try {
-
-        User user2 = User(
-            email: user.email,
-            firstName: user.firstName,
-            phoneNumber: user.phoneNumber,
-            userID: user.userID,
-            active: true,
-            lastName: user.lastName,
-            profilePictureURL: user.profilePictureURL,
-            userCategory: _userCategory);
+        DocumentSnapshot documentSnapshot = await FireStoreUtils.firestore
+            .collection(USERS)
+            .doc(user.userID)
+            .get();
+        User user3 = User.fromJson(documentSnapshot.data());
+        user3.userCategory = _userCategory;
 
         //update only 1 user data
         await FireStoreUtils.firestore
             .collection(USERS)
             .doc(user.userID)
-            .update({"userCategory" : _userCategory});
+            .set(user3.toJson());
         hideProgress();
-        pushAndRemoveUntil(context, HomeScreen(user: user2), false);
+        pushAndRemoveUntil(context, HomeScreen(user: user3), false);
       } catch (e) {
         print('_SignUpCategoryState._sendToServer $e');
         hideProgress();

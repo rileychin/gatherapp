@@ -21,6 +21,11 @@ class User {
   String appIdentifier;
   List<dynamic> userCategory;
 
+  //store this as a list of IDs for the groups so can easily sort when can
+  List<dynamic> groupsCreated;
+  List<dynamic> groupsAttending;
+  List<dynamic> groupsBookmarked;
+
   User(
       {this.email = '',
       this.firstName = '',
@@ -31,7 +36,10 @@ class User {
       lastOnlineTimestamp,
       this.userID = '',
       this.profilePictureURL = '',
-      this.userCategory = const ["Sports"]})
+      this.userCategory = const ["Sports"],
+      this.groupsCreated = const [],
+      this.groupsAttending = const [],
+      this.groupsBookmarked = const []})
       : this.lastOnlineTimestamp = lastOnlineTimestamp ?? Timestamp.now(),
         this.appIdentifier = 'Flutter Login Screen ${Platform.operatingSystem}';
 
@@ -49,7 +57,10 @@ class User {
         phoneNumber: parsedJson['phoneNumber'] ?? '',
         userID: parsedJson['id'] ?? parsedJson['userID'] ?? '',
         profilePictureURL: parsedJson['profilePictureURL'] ?? '',
-        userCategory: parsedJson['userCategory'] ?? ["General"]);
+        userCategory: parsedJson['userCategory'] ?? ["General"],
+        groupsCreated: parsedJson['groupsCreated'] ?? [],
+        groupsAttending: parsedJson['groupsAttending'] ?? [],
+        groupsBookmarked: parsedJson['groupsBookmarked'] ?? []);
   }
 
   Map<String, dynamic> toJson() {
@@ -63,7 +74,10 @@ class User {
       'lastOnlineTimestamp': this.lastOnlineTimestamp,
       'profilePictureURL': this.profilePictureURL,
       'appIdentifier': this.appIdentifier,
-      'userCategory' : this.userCategory
+      'userCategory' : this.userCategory,
+      'groupsCreated' : this.groupsCreated,
+      'groupsAttending' : this.groupsAttending,
+      'groupsBookmarked' : this.groupsBookmarked,
     };
   }
 }

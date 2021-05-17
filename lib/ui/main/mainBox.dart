@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gather_app/model/user.dart';
@@ -23,36 +24,47 @@ class _MainBox extends State<MainBox> {
   @override
   Widget build(BuildContext context) {
     return
-    SingleChildScrollView(
-      child: Align(
+    Scaffold(
+      body: Align(
           child: Center(
-              child: itemCount > 0
-                  ? ListView.builder(
-                itemCount: itemCount,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text('Item ${index + 1}'),
-                  );
-                },
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection("groups")
+                    .snapshots(),
+                builder: buildUserList
               )
-                  : Center(child: const Text('No grouping')))
+          )
       )
     );
-
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return groups.isEmpty 
-  //       ? Center(child: const Text('No grouping')) 
-  //       : ListView.builder(
-  //             itemCount: itemCount,
-  //             itemBuilder: (BuildContext context, int index) {
-  //               return ListTile(
-  //                 title: Text('Item ${index + 1}'),
-  //               );
-  //             },
-  //           );
-  // }
+  Widget buildUserList(
+      BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+    print("snapshot has data? ${snapshot.hasData}");
+    print("snapshot has data? ${snapshot.data.size}");
+    if (snapshot.hasData && snapshot.data.size != 0) {
+      return ListView.builder(
+        itemCount: snapshot.data.docs.length,
+        itemBuilder: (context, index) {
+          String title = snapshot.data.docs[index]['title'];
+          String eventDate = snapshot.data.docs[index]['eventDate'];
+
+          return ListTile(
+            selectedTileColor: Colors.amber,
+            onTap: () {print("hello");},
+            title: Text(title),
+            subtitle: Text(eventDate.toString()),
+          );
+        },
+      );
+    } else if (snapshot.data.size == 0) {
+      return Center(
+        child:
+          Image.asset('assets/images/empty.jpg')
+      );
+    } else {
+      return CircularProgressIndicator();
+    }
+  }
 
 }

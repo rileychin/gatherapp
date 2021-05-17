@@ -27,8 +27,7 @@ class _AddGroupScreen extends State<AddGroupScreen> {
   _AddGroupScreen(this.user);
   GlobalKey<FormState> _key = new GlobalKey();
   AutovalidateMode _validate = AutovalidateMode.disabled;
-  String title, description, location;
-  DateTime eventDate;
+  String title, description, location,eventDate;
   CollectionReference groups = FirebaseFirestore.instance.collection('groups');
   LocationResult locationResult;
   final locationController = TextEditingController();
@@ -177,6 +176,9 @@ class _AddGroupScreen extends State<AddGroupScreen> {
                     controller: dateController,
                     onTap: (){showDateTimePicker();},
                     validator: validateDescription,
+                    onSaved: (String val) {
+                      eventDate = dateController.text;
+                    },
                     textInputAction: TextInputAction.next,
                     onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
                     decoration: InputDecoration(
@@ -259,9 +261,20 @@ class _AddGroupScreen extends State<AddGroupScreen> {
           eventDate: eventDate,
         );
         await FireStoreUtils.firestore
-            .collection('groups')
+            .collection(GROUPS)
             .doc(groupId)
             .set(group.toJson());
+        hideProgress();
+
+        DocumentSnapshot userSnapshot = await FireStoreUtils.firestore
+            .collection(USERS)
+            .doc(user.userID)
+            .get();
+        hideProgress();
+        await FireStoreUtils.firestore
+            .collection(USERS)
+            .doc(user.userID)
+            .update({"groupsCreated" : updateCreatedGroups(groupId, userSnapshot)});
         hideProgress();
         pushAndRemoveUntil(context, HomeScreen(user: user), false);
       } catch (e) {
@@ -315,10 +328,20 @@ class _AddGroupScreen extends State<AddGroupScreen> {
             String formatDate(DateTime date) => new DateFormat("MMMM d yyyy HH:mm").format(date);
             print(formatDate(date));
             dateController.text = formatDate(date);
-            eventDate = date.toLocal();
+            // DateTime newDate = DateTime(date.year,date.month,date.day,date.hour,date.minute);
+            // print("new Date : $newDate");
+            // eventDate = newDate;
           });
         },
         currentTime: DateTime.now(),
         locale: LocaleType.en);
+  }
+
+  List<dynamic> updateCreatedGroups(String groupId, DocumentSnapshot userSnapshot) {
+    User user1 = User.fromJson(userSnapshot.data());
+
+    List<dynamic> oldGroupsCreated = user1.groupsCreated;
+    oldGroupsCreated.add(groupId);
+    return oldGroupsCreated;
   }
 }
