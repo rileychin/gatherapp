@@ -137,6 +137,7 @@ class _AddGroupScreen extends State<AddGroupScreen> {
                     const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
                 child: TextFormField(
                     controller: locationController,
+                    validator: validateLocation,
                     onSaved: (String val) {
                       location = locationController.text;
                     },
@@ -199,6 +200,10 @@ class _AddGroupScreen extends State<AddGroupScreen> {
                 padding:
                 const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
                 child: TextFormField(
+                    minLines: 10,
+                    maxLines: null,
+                    textAlignVertical: TextAlignVertical.top,
+                    keyboardType: TextInputType.multiline,
                     validator: validateDescription,
                     onSaved: (String val) {
                       description = val;
@@ -206,8 +211,7 @@ class _AddGroupScreen extends State<AddGroupScreen> {
                     textInputAction: TextInputAction.next,
                     onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
                     decoration: InputDecoration(
-                        contentPadding: new EdgeInsets.symmetric(
-                            vertical: 90, horizontal: 16),
+                        alignLabelWithHint: true,
                         fillColor: Colors.white,
                         hintText: 'Description',
                         focusedBorder: OutlineInputBorder(
